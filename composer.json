@@ -11,19 +11,32 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/modethirteen/hyperplug/issues"
+    "issues": "https://github.com/MindTouch/hyperplug/issues"
   },
   "require": {
-    "php": "~7.4.12",
-    "modethirteen/xarray": "dev-main",
-    "modethirteen/type-ex": "dev-main",
+    "php": "~8.1.12",
+    "modethirteen/xarray": "dev-main-php8",
+    "modethirteen/type-ex": "dev-main-php8",
     "ext-fileinfo": "*",
     "ext-json": "*",
     "ext-curl": "*"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/MindTouch/TypeEx",
+      "no-api": true
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/MindTouch/Xarray.php",
+      "no-api": true
+    }
+  ],
   "require-dev": {
-    "phpstan/phpstan": "~0.12.57",
-    "phpunit/phpunit": "~9.4.3"
+    "phpstan/phpstan": "^1.9.3",
+    "phpunit/phpunit": "~9.4.3",
+    "rector/rector": "^0.15.1"
   },
   "autoload": {
     "psr-4": {
