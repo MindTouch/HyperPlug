@@ -21,12 +21,7 @@ namespace modethirteen\Http\Content;
  *
  * @package modethirteen\Http\Content
  */
-class TextContent implements IContent {
-
-    /**
-     * @var string
-     */
-    private string $text;
+class TextContent implements IContent, \Stringable {
 
     /**
      * @var ContentType|null
@@ -34,15 +29,13 @@ class TextContent implements IContent {
     private ?ContentType $contentType;
 
     /**
-     * @param string $text
      * @param ContentType|null $contentType - defaults to text/plain
      */
-    public function __construct(string $text, ContentType $contentType = null) {
+    public function __construct(private readonly string $text, ContentType $contentType = null) {
         if($contentType === null) {
             $contentType = ContentType::newFromString(ContentType::TEXT);
         }
         $this->contentType = $contentType;
-        $this->text = $text;
     }
 
     public function __clone() {

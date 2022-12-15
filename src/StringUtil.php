@@ -25,60 +25,33 @@ use Closure;
  */
 class StringUtil {
 
-    /**
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
     public static function endsWith(string $haystack, string $needle) : bool {
         $length = strlen($needle);
         $start = $length * -1; //negative
         return (substr($haystack, $start) === $needle);
     }
 
-     /**
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
-    public static function endsWithInvariantCase(string $haystack, string $needle) : bool {
+     public static function endsWithInvariantCase(string $haystack, string $needle) : bool {
         return self::endsWith(strtolower($haystack), strtolower($needle));
     }
 
-    /**
-     * @param string|null $string
-     * @return bool
-     */
     public static function isNullOrEmpty(?string $string) : bool {
         return $string === null || $string === '';
     }
 
-    /**
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
     public static function startsWith(string $haystack, string $needle) : bool {
         $length = strlen($needle);
         return (substr($haystack, 0, $length) === $needle);
     }
 
-    /**
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
     public static function startsWithInvariantCase(string $haystack, string $needle) : bool {
         return self::startsWith(strtolower($haystack), strtolower($needle));
     }
 
     /**
      * Stringify any value
-     *
-     * @param mixed $value
-     * @return string
      */
-    public static function stringify($value) : string {
+    public static function stringify(mixed $value) : string {
         if($value === null) {
             return '';
         }

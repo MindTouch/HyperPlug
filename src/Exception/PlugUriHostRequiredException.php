@@ -21,22 +21,10 @@ use modethirteen\Http\XUri;
 
 class PlugUriHostRequiredException extends Exception {
 
-    /**
-     * @var XUri
-     */
-    private XUri $uri;
-
-    /**
-     * @param XUri $uri
-     */
-    public function __construct(XUri $uri) {
-        $this->uri = $uri;
+    public function __construct(private readonly XUri $uri) {
         parent::__construct('Uri does not contain a valid hostname: ' . $uri->toString());
     }
 
-    /**
-     * @return XUri
-     */
     public function getUri() : XUri {
         return $this->uri;
     }

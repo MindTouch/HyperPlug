@@ -23,13 +23,11 @@ interface IQueryParams extends Iterator {
     /**
      * Get a query parameter value from the collection
      *
-     * @param string $param
      * @return string|null
      */
     function get(string $param) : ?string;
 
     /**
-     * @param string $param
      * @return bool
      */
     function isSet(string $param) : bool;

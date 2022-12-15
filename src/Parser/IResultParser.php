@@ -28,17 +28,12 @@ interface IResultParser {
 
     /**
      * Return an instance with a max content length
-     *
-     * @param int $length
-     * @return IResultParser
      */
     function withMaxContentLength(int $length) : IResultParser;
 
     /**
      * Return an instance with the content body parsed into an array
      *
-     * @param Result $result
-     * @return Result
      * @throws ResultParserContentExceedsMaxContentLengthException
      */
     function toParsedResult(Result $result) : Result;

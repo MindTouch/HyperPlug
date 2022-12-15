@@ -28,13 +28,13 @@ class __construct_Test extends PlugTestCase {
     public function Cannot_instantiate_file_content_with_invalid_file_path() {
 
         // assert
-        $filePath = dirname(__FILE__) . '/foo.png';
+        $filePath = __DIR__ . '/foo.png';
 
         // act
         $exceptionThrown = false;
         try {
             new FileContent($filePath);
-        } catch(InvalidArgumentException $e) {
+        } catch(InvalidArgumentException) {
             $exceptionThrown = true;
         }
 

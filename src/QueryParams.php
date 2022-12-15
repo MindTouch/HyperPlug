@@ -16,12 +16,8 @@
  */
 namespace modethirteen\Http;
 
-class QueryParams implements IMutableQueryParams {
+class QueryParams implements IMutableQueryParams, \Stringable {
 
-    /**
-     * @param array $array
-     * @return QueryParams
-     */
     public static function newFromArray(array $array) : QueryParams {
         $params = new QueryParams();
         foreach($array as $param => $value) {
@@ -30,23 +26,19 @@ class QueryParams implements IMutableQueryParams {
         return $params;
     }
 
-    /**
-     * @param string $query
-     * @return QueryParams
-     */
     public static function newFromQuery(string $query) : QueryParams {
         $params = new QueryParams();
         if($query !== null) {
             $pairs = explode('&', $query);
             foreach($pairs as $pair) {
                 if(!StringUtil::isNullOrEmpty($pair)) {
-                    if(strpos($pair, '=') === false) {
+                    if(!str_contains($pair, '=')) {
                         $k = $pair;
                         $v = null;
                     } else {
-                        list($k, $v) = array_map('urldecode', explode('=', $pair));
+                        [$k, $v] = array_map('urldecode', explode('=', $pair));
                     }
-                    $params->set($k, $v === null ? '' : $v);
+                    $params->set($k, $v ?? '');
                 }
             }
         }
@@ -103,13 +95,12 @@ class QueryParams implements IMutableQueryParams {
     }
 
     public function get(string $param) : ?string {
-        return isset($this->params[$param]) ? $this->params[$param] : null;
+        return $this->params[$param] ?? null;
     }
 
     /**
      * @param string|int $param
      * @param $value
-     * @return void
      */
     public function set($param, $value) : void {
         if($value === null) {

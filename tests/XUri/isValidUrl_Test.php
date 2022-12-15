@@ -21,9 +21,6 @@ use modethirteen\Http\XUri;
 
 class isValidUrl_Test extends PlugTestCase {
 
-    /**
-     * @return array
-     */
     public static function valid_dataProvider() : array {
         return [
             ['https://google.com?q=foo'],
@@ -34,9 +31,6 @@ class isValidUrl_Test extends PlugTestCase {
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function invalid_dataProvider() : array {
         return [
             ['localhost'],
@@ -47,7 +41,6 @@ class isValidUrl_Test extends PlugTestCase {
 
     /**
      * @dataProvider valid_dataProvider
-     * @param string $string
      * @test
      */
     public function Is_valid_url(string $string) {
@@ -61,7 +54,6 @@ class isValidUrl_Test extends PlugTestCase {
 
     /**
      * @dataProvider invalid_dataProvider
-     * @param string $string
      * @test
      */
     public function Is_not_valid_url(string $string) {

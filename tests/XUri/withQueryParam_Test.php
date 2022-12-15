@@ -21,9 +21,6 @@ use modethirteen\Http\XUri;
 
 class withQueryParam_Test extends PlugTestCase {
 
-    /**
-     * @return array
-     */
     public static function param_expected_Provider() : array {
         return [
             ['bar', 'http://user:password@test.mindtouch.dev/?a=b&c=d&foo=bar#fragment'],
@@ -37,17 +34,15 @@ class withQueryParam_Test extends PlugTestCase {
                 }
             }, 'http://user:password@test.mindtouch.dev/?a=b&c=d&foo=fred#fragment'],
             [['qux', true, -10, 5], 'http://user:password@test.mindtouch.dev/?a=b&c=d&foo=qux%2C1%2C-10%2C5#fragment'],
-            [function() { return 'bazz'; }, 'http://user:password@test.mindtouch.dev/?a=b&c=d&foo=bazz#fragment']
+            [fn() => 'bazz', 'http://user:password@test.mindtouch.dev/?a=b&c=d&foo=bazz#fragment']
         ];
     }
 
     /**
      * @dataProvider param_expected_Provider
      * @test
-     * @param mixed $param
-     * @param string $expected
      */
-    public function With_add_query_parameter($param, string $expected) {
+    public function With_add_query_parameter(mixed $param, string $expected) {
 
         // arrange
         $uriStr = 'http://user:password@test.mindtouch.dev/?a=b&c=d#fragment';

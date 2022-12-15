@@ -87,7 +87,7 @@ class setHeader_Test extends PlugTestCase {
             }
         });
         $headers->setHeader('fredd', ['qux', true, -10, 5]);
-        $headers->setHeader('barr', function() { return 'bazzzzz'; });
+        $headers->setHeader('barr', fn() => 'bazzzzz');
 
         // assert
         $this->assertArrayHasKeyValue('Bar', ['true'], $headers->toArray());

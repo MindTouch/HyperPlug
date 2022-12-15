@@ -49,7 +49,7 @@ class withHost_Test extends PlugTestCase {
         $exceptionThrown = false;
         try {
             XUri::tryParse($uriStr)->withHost('');
-        } catch(InvalidArgumentException $e) {
+        } catch(InvalidArgumentException) {
             $exceptionThrown = true;
         }
 

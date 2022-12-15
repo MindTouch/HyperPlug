@@ -25,8 +25,8 @@ use modethirteen\Http\Exception\MalformedUriException;
  *
  * @package modethirteen\Http
  */
-class XUri {
-    const SENSITIVE_DATA_REPLACEMENT = '###';
+class XUri implements \Stringable {
+    final const SENSITIVE_DATA_REPLACEMENT = '###';
 
     /**
      * Return an instance or null
@@ -37,7 +37,7 @@ class XUri {
     public static function tryParse(string $string) : ?object {
         try {
             return static::newFromString($string);
-        } catch(MalformedUriException $e) {
+        } catch(MalformedUriException) {
             return null;
         }
     }
@@ -59,9 +59,6 @@ class XUri {
 
     /**
      * Is string is a valid URL?
-     *
-     * @param string $string
-     * @return bool
      */
     public static function isValidUrl(string $string) : bool {
         $filtered = filter_var($string, FILTER_VALIDATE_URL);
@@ -70,12 +67,9 @@ class XUri {
 
     /**
      * Is string a schemeless URL? (ex: //example.com)
-     *
-     * @param string $string
-     * @return bool
      */
     public static function isSchemelessUrl(string $string) : bool {
-        if(substr($string, 0, 2) !== '//') {
+        if(!str_starts_with($string, '//')) {
             return false;
         }
         return self::isValidUrl('http:' . $string);
@@ -83,9 +77,6 @@ class XUri {
 
     /**
      * Is string an absolute URL?
-     *
-     * @param string $string
-     * @return bool
      */
     public static function isAbsoluteUrl(string $string) : bool {
         $filtered = filter_var($string, FILTER_VALIDATE_URL);
@@ -124,12 +115,10 @@ class XUri {
     final private function __construct() {}
 
     #region URI data accessors
-
     /**
      * Retrieve the scheme component of the URI
      *
      * @see https://tools.ietf.org/html/rfc3986#section-3.1
-     * @return string
      */
     public function getScheme() : string {
         return $this->data['scheme'];
@@ -141,10 +130,9 @@ class XUri {
      * @note A root/homepage path may return '/' or ''. It is the client's responsibility to handle both cases!
      * @see https://tools.ietf.org/html/rfc3986#section-2
      * @see https://tools.ietf.org/html/rfc3986#section-3.3
-     * @return string
      */
     public function getPath() : string {
-        return isset($this->data['path']) ? $this->data['path'] : '';
+        return $this->data['path'] ?? '';
     }
 
     /**
@@ -161,10 +149,9 @@ class XUri {
      *
      * @see https://tools.ietf.org/html/rfc3986#section-2
      * @see https://tools.ietf.org/html/rfc3986#section-3.4
-     * @return string|null
      */
     public function getQuery() : ?string {
-        return isset($this->data['query']) ? $this->data['query'] : null;
+        return $this->data['query'] ?? null;
     }
 
     /**
@@ -192,27 +179,24 @@ class XUri {
      *
      * @see https://tools.ietf.org/html/rfc3986#section-2
      * @see https://tools.ietf.org/html/rfc3986#section-3.5
-     * @return string|null
      */
     public function getFragment() : ?string {
-        return isset($this->data['fragment']) ? $this->data['fragment'] : null;
+        return $this->data['fragment'] ?? null;
     }
 
     /**
      * Retrieve the host component of the URI
      *
      * @see http://tools.ietf.org/html/rfc3986#section-3.2.2
-     * @return string|null
      */
     public function getHost() : ?string {
-        return isset($this->data['host']) ? $this->data['host'] : null;
+        return $this->data['host'] ?? null;
     }
 
     /**
      * Retrieve the authority component of the URI, in "[user-info@]host[:port]" format
      *
      * @see https://tools.ietf.org/html/rfc3986#section-3.2
-     * @return string
      */
     public function getAuthority() : string {
         $result = '';
@@ -227,8 +211,6 @@ class XUri {
 
     /**
      * Retrieve the user information component of the URI, in "username[:password]" format
-     *
-     * @return string
      */
     public function getUserInfo() : string {
         $result = '';
@@ -243,8 +225,6 @@ class XUri {
 
     /**
      * Retrieve the port component of the URI
-
-     * @return int|null
      */
     public function getPort() : ?int {
         return isset($this->data['port']) ? intval($this->data['port']) : null;
@@ -313,7 +293,6 @@ class XUri {
     /**
      * Return an instance with the specified scheme
      *
-     * @param string $scheme
      * @return static
      * @throws InvalidArgumentException
      */
@@ -388,7 +367,7 @@ class XUri {
      * @return static
      * @throws InvalidArgumentException for invalid query params
      */
-    public function withQueryParam(string $param, $value) : object {
+    public function withQueryParam(string $param, mixed $value) : object {
         if($value === null) {
             return $this;
         }
@@ -408,14 +387,13 @@ class XUri {
      * @return static
      * @throws InvalidArgumentException for invalid query params
      */
-    public function with(string $param, $value) : object {
+    public function with(string $param, mixed $value) : object {
         return $this->withQueryParam($param, $value);
     }
 
     /**
      * Return an instance without the specified query param
      *
-     * @param string $param
      * @return static
      */
     public function withoutQueryParam(string $param) : object {
@@ -439,7 +417,7 @@ class XUri {
      * @param mixed $value - query param value; a null value removes the query param information (aliases Uri::withoutQueryParam)
      * @return static
      */
-    public function withReplacedQueryParam(string $param, $value) : object {
+    public function withReplacedQueryParam(string $param, mixed $value) : object {
         if($value === null) {
             return $this->withoutQueryParam($param);
         }
@@ -506,7 +484,7 @@ class XUri {
      * @param mixed ...$segments,... - path segments to append
      * @return static
      */
-    public function at(...$segments) : object {
+    public function at(mixed ...$segments) : object {
         if(empty($segments)) {
             return $this;
         }
@@ -522,7 +500,6 @@ class XUri {
     /**
      * Return an instance with path/query/fragment appended
      *
-     * @param string $pathQueryFragment
      * @return static
      * @throws MalformedPathQueryFragmentException
      */
@@ -592,9 +569,6 @@ class XUri {
         return static::newFromUriData($data);
     }
 
-    /**
-     * @return string
-     */
     public function toString() : string {
         $scheme = $this->getScheme();
         $result = StringUtil::isNullOrEmpty($scheme) ? 'http://' : $scheme . '://';
@@ -607,9 +581,6 @@ class XUri {
         return $result;
     }
 
-    /**
-     * @return string
-     */
     public function toRelativeString() : string {
         $path = $this->getPath();
         $query = $this->getQuery();
@@ -628,22 +599,10 @@ class XUri {
         return $this->toString();
     }
 
-    #endregion
-
-    #region Common helpers
-
-    /**
-     * @param string $path
-     * @return string
-     */
     private function normalize(string $path) : string {
         return '/' . trim($path, '/');
     }
 
-    /**
-     * @param array $data
-     * @return string
-     */
     private function getInternalPath(array $data) : string {
         return (isset($data['path']) && $data['path'] !== '/') ? $this->normalize($data['path']) : '';
     }

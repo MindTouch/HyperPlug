@@ -21,9 +21,6 @@ use modethirteen\Http\Tests\PlugTestCase;
 
 class isPlainText_Test extends PlugTestCase {
 
-    /**
-     * @return array
-     */
     public static function headerLine_expected_dataProvider() : array {
         return [
             ['application/x-latex', false],
@@ -47,8 +44,6 @@ class isPlainText_Test extends PlugTestCase {
 
     /**
      * @dataProvider headerLine_expected_dataProvider
-     * @param string $headerLine
-     * @param bool $expected
      * @test
      */
     public function Can_check_if_content_type_is_plain_text(string $headerLine, bool $expected) {

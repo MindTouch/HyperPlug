@@ -49,9 +49,7 @@ class at_Test extends PlugTestCase  {
                 return 'xyz';
             }
         };
-        $func = function() {
-            return 'asdf';
-        };
+        $func = fn() => 'asdf';
 
         // act
         $plug = $plug->at('bar', 'qux', 'baz', true, 123, $object, $func);

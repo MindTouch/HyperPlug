@@ -46,7 +46,6 @@ class MockRequestMatcher {
      * Set query param names to ignore during matching
      *
      * @param string[] $names
-     * @return void
      */
     public static function setIgnoredQueryParamNames(array $names) : void {
         self::$ignoredQueryParamNames = $names;
@@ -56,21 +55,10 @@ class MockRequestMatcher {
      * Set HTTP header names to ignore during matching
      *
      * @param string[] $names
-     * @return void
      */
     public static function setIgnoredHeaderNames(array $names) : void {
         self::$ignoredHeaderNames = $names;
     }
-
-    /**
-     * @var string
-     */
-    private string $method;
-
-    /**
-     * @var XUri
-     */
-    private XUri $uri;
 
     /**
      * @var IMutableHeaders
@@ -82,13 +70,7 @@ class MockRequestMatcher {
      */
     private ?string $body = null;
 
-    /**
-     * @param string $method
-     * @param XUri $uri
-     */
-    public function __construct(string $method, XUri $uri) {
-        $this->method = $method;
-        $this->uri = $uri;
+    public function __construct(private readonly string $method, private XUri $uri) {
         $this->headers = new Headers();
     }
 
@@ -101,8 +83,6 @@ class MockRequestMatcher {
 
     /**
      * Retrieve HTTP method
-     *
-     * @return string
      */
     public function getMethod() : string {
         return $this->method;
@@ -110,8 +90,6 @@ class MockRequestMatcher {
 
     /**
      * Retrieve denormalized matcher uri
-     *
-     * @return XUri
      */
     public function getUri() : XUri {
         return $this->uri;
@@ -119,8 +97,6 @@ class MockRequestMatcher {
 
     /**
      * Retrieve HTTP headers
-     *
-     * @return IHeaders
      */
     public function getHeaders() : IHeaders {
         return $this->headers;
@@ -128,8 +104,6 @@ class MockRequestMatcher {
 
     /**
      * Retrieve HTTP message body
-     *
-     * @return string|null
      */
     public function getBody() : ?string {
         return $this->body;
@@ -137,8 +111,6 @@ class MockRequestMatcher {
 
     /**
      * Retrieve id to match mock results to matcher
-     *
-     * @return string
      */
     public function getMatcherId() : string {
         $uri = $this->newNormalizedUriString();
@@ -148,9 +120,6 @@ class MockRequestMatcher {
 
     /**
      * Return an instance with the specified HTTP headers.
-     *
-     * @param IHeaders $headers
-     * @return MockRequestMatcher
      */
     public function withHeaders(IHeaders $headers) : MockRequestMatcher {
         $request = clone $this;
@@ -160,9 +129,6 @@ class MockRequestMatcher {
 
     /**
      * Return an instance with the specified HTTP headers added to existing mocked HTTP headers.
-     *
-     * @param IHeaders $headers
-     * @return MockRequestMatcher
      */
     public function withAddedHeaders(IHeaders $headers) : MockRequestMatcher {
         $request = clone $this;
@@ -174,7 +140,6 @@ class MockRequestMatcher {
      * Return an instance with the specified body string
      *
      * @param string|string[]|null $body - array body is assumed to be form fields and will be encoded to a string
-     * @return MockRequestMatcher
      */
     public function withBody($body) : MockRequestMatcher {
         if(is_string($body) || is_array($body) || $body == null) {
@@ -191,9 +156,6 @@ class MockRequestMatcher {
     /**
      * Return an instance with the specified content. Method will set a body and content-type depending on
      * the value of the content object
-     *
-     * @param IContent $content
-     * @return MockRequestMatcher
      */
     public function withContent(IContent $content) : MockRequestMatcher {
         $request = clone $this;
@@ -203,33 +165,24 @@ class MockRequestMatcher {
         return $request;
     }
 
-    /**
-     * @return array
-     */
     public function toArray() : array {
         return [
             'method' => $this->method,
             'uri' => $this->uri->toString(),
             'headers' => $this->headers->toFlattenedArray(),
-            'body' => $this->body !== null ? $this->body : ''
+            'body' => $this->body ?? ''
         ];
     }
 
-    /**
-     * @return array
-     */
     public function toNormalizedArray() : array {
         return [
             'method' => $this->method,
             'uri' => $this->newNormalizedUriString(),
             'headers' => $this->newNormalizedHeaderStrings(),
-            'body' => $this->body !== null ? $this->body : ''
+            'body' => $this->body ?? ''
         ];
     }
 
-    /**
-     * @return string
-     */
     private function newNormalizedUriString() : string {
         $params = [];
         $href = $this->uri->toString();

@@ -24,10 +24,10 @@ use InvalidArgumentException;
  * @package modethirteen\Http
  */
 class Headers implements IMutableHeaders {
-    const HEADER_CONTENT_TYPE = 'Content-Type';
-    const HEADER_AUTHORIZATION = 'Authorization';
-    const HEADER_CONTENT_LENGTH = 'Content-Length';
-    const HEADER_SET_COOKIE = 'Set-Cookie';
+    final const HEADER_CONTENT_TYPE = 'Content-Type';
+    final const HEADER_AUTHORIZATION = 'Authorization';
+    final const HEADER_CONTENT_LENGTH = 'Content-Length';
+    final const HEADER_SET_COOKIE = 'Set-Cookie';
 
     /**
      * Header names that should not have multiple values
@@ -62,7 +62,6 @@ class Headers implements IMutableHeaders {
      * Return an instance from a name/value pair structure: [ [ name, value ], [ name, value ], ...]
      *
      * @param string[][] $pairs
-     * @return self
      */
     public static function newFromHeaderNameValuePairs(array $pairs) : self {
         $headers = new Headers();
@@ -70,7 +69,7 @@ class Headers implements IMutableHeaders {
             if(!isset($pair[0])) {
                 throw new InvalidArgumentException('Invalid name/value pair structure');
             }
-            $value = isset($pair[1]) ? $pair[1] : null;
+            $value = $pair[1] ?? null;
             $headers->addHeader($pair[0], $value);
         }
         return $headers;
@@ -79,9 +78,7 @@ class Headers implements IMutableHeaders {
     /**
      * Return a raw header string
      *
-     * @param string $name
      * @param string|null $value
-     * @return string
      */
     private static function newRawHeader(string $name, string $value = null) : string {
         return !StringUtil::isNullOrEmpty($value) ? "{$name}: {$value}" : "{$name}:";
@@ -89,9 +86,6 @@ class Headers implements IMutableHeaders {
 
     /**
      * Retrieve HTTP header name in capitalized, hyphenated format (Content-Type, Set-Cookie, ...)
-     *
-     * @param string $name
-     * @return string
      */
     private static function getFormattedHeaderName(string $name) : string {
         return implode('-', array_map('ucfirst', explode('-', strtolower($name))));
@@ -138,7 +132,7 @@ class Headers implements IMutableHeaders {
 
     public function getHeader(string $name) : array {
         $name = self::getFormattedHeaderName($name);
-        return isset($this->headers[$name]) ? $this->headers[$name] : [];
+        return $this->headers[$name] ?? [];
     }
 
     public function getSetCookieHeaderLine(string $cookieName) : ?string {
@@ -147,7 +141,7 @@ class Headers implements IMutableHeaders {
             return null;
         }
         foreach($headers as $header) {
-            if(strpos($header, $cookieName) === 0) {
+            if(str_starts_with($header, $cookieName)) {
                 return $header;
             }
         }
@@ -254,27 +248,19 @@ class Headers implements IMutableHeaders {
 
     /**
      * Build a header values array
-     *
-     * @param mixed $value
-     * @return array
      */
-    protected function getValuesHelper($value) : array {
+    protected function getValuesHelper(mixed $value) : array {
         if(is_string($value)) {
             return [trim($value)];
         }
         if(is_array($value)) {
-            return array_map(function($value) {
-                return trim(StringUtil::stringify($value));
-            }, $value);
+            return array_map(fn($value) => trim(StringUtil::stringify($value)), $value);
         }
         return [trim(StringUtil::stringify($value))];
     }
 
     /**
-     * @param string $name
      * @param string[] $values
-     * @param bool $overwrite
-     * @return void
      */
     protected function set(string $name, array $values, bool $overwrite) : void {
         if(in_array($name, static::$singleValueHeaders)) {
@@ -299,16 +285,11 @@ class Headers implements IMutableHeaders {
         $this->rewind();
     }
 
-    /**
-     * @param string $header
-     * @param bool $overwrite
-     * @return void
-     */
     protected function setRawHeaderHelper(string $header, bool $overwrite) : void {
-        if(strpos($header, ':') === false) {
+        if(!str_contains($header, ':')) {
             throw new InvalidArgumentException('Invalid HTTP header: ' . $header);
         }
-        list($name, $value) = explode(':', $header, 2);
+        [$name, $value] = explode(':', $header, 2);
         $name = self::getFormattedHeaderName($name);
         $values = !$this->isRawHeaderCommaSeparationEnabled || in_array($name, static::$multipleNameValuePairHeaders)
             ? [trim($value)]

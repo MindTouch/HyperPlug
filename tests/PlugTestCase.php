@@ -33,11 +33,6 @@ use PHPUnit\Framework\TestCase;
 
 class PlugTestCase extends TestCase {
 
-    #region Test data providers
-
-    /**
-     * @return array
-     */
     public static function content_dataProvider() : array {
         return [
             'text' => [new TextContent('foo')],
@@ -62,10 +57,6 @@ class PlugTestCase extends TestCase {
         MockPlug::deregisterAll();
     }
 
-    /**
-     * @param string $class
-     * @return MockObject
-     */
     protected function newMock(string $class) : MockObject {
         return $this->getMockBuilder($class)
             ->addMethods(get_class_methods($class))
@@ -73,11 +64,6 @@ class PlugTestCase extends TestCase {
             ->getMock();
     }
 
-    /**
-     * @param string $method
-     * @param XUri $uri
-     * @return MockRequestMatcher
-     */
     protected function newDefaultMockRequestMatcher(string $method, XUri $uri) : MockRequestMatcher {
         return new MockRequestMatcher($method, $uri);
     }
@@ -85,7 +71,6 @@ class PlugTestCase extends TestCase {
     /**
      * Return a new HyperPlug instance configured for httpbin.org
      *
-     * @return Plug
      * @throws PlugUriHostRequiredException
      */
     protected function newHttpBinPlug() : Plug {
@@ -108,12 +93,8 @@ class PlugTestCase extends TestCase {
 
     /**
      * Assert that an array contains a specified key with the specified value
-     *
-     * @param string $key
-     * @param mixed $expected
-     * @param array $array
      */
-    protected function assertArrayHasKeyValue(string $key, $expected, array $array) {
+    protected function assertArrayHasKeyValue(string $key, mixed $expected, array $array) {
         $this->assertEquals($expected, (new XArray($array))->getVal($key));
     }
 }

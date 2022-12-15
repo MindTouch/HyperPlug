@@ -25,8 +25,6 @@ interface IContent {
 
     /**
      * Retrieve the Content-Type value
-     *
-     * @return ContentType|null
      */
     function getContentType() : ?ContentType;
 
@@ -37,8 +35,5 @@ interface IContent {
      */
     function toRaw();
 
-    /**
-     * @return string
-     */
     function toString() : string;
 }

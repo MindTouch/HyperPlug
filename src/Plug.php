@@ -34,12 +34,12 @@ use modethirteen\Http\Parser\IResultParser;
  * @package modethirteen\Http
  */
 class Plug {
-    const DEFAULT_MAX_AUTO_REDIRECTS = 10;
-    const METHOD_DELETE = 'DELETE';
-    const METHOD_GET = 'GET';
-    const METHOD_HEAD = 'HEAD';
-    const METHOD_POST = 'POST';
-    const METHOD_PUT = 'PUT';
+    final const DEFAULT_MAX_AUTO_REDIRECTS = 10;
+    final const METHOD_DELETE = 'DELETE';
+    final const METHOD_GET = 'GET';
+    final const METHOD_HEAD = 'HEAD';
+    final const METHOD_POST = 'POST';
+    final const METHOD_PUT = 'PUT';
 
     /**
      * @var int
@@ -106,11 +106,8 @@ class Plug {
     }
 
     #region Plug request data accessors
-
     /**
      * Retrieves HTTP headers
-     *
-     * @return IHeaders
      */
     public function getHeaders() : IHeaders {
         return $this->headers;
@@ -120,7 +117,6 @@ class Plug {
      * Retrieves the fully qualified uri
      *
      * @param bool $includeCredentials - if true, any set username and password will be included
-     * @return XUri
      */
     public function getUri(bool $includeCredentials = false) : XUri {
         $uri = clone $this->uri;
@@ -134,8 +130,6 @@ class Plug {
 
     /**
      * Retrieves the number of seconds before invocation will fail due to timeout
-     *
-     * @return int
      */
     public function getTimeout() : int {
         return $this->timeout;
@@ -143,8 +137,6 @@ class Plug {
 
     /**
      * Retrieves the maximum number of redirects to follow before giving up
-     *
-     * @return int
      */
     public function getMaxAutoRedirects() : int {
         return $this->maxAutoRedirects;
@@ -152,21 +144,16 @@ class Plug {
 
     /**
      * Will this plug automatically follow redirects (301, 302, 307)?
-     *
-     * @return bool
      */
     public function isAutoRedirectEnabled() : bool {
         return $this->maxAutoRedirects > 0;
     }
 
     #endregion
-
     #region Plug request builders
-
     /**
      * Return an instance with the specified result parser
      *
-     * @param IResultParser $parser
      * @return static
      */
     public function withResultParser(IResultParser $parser) : object {
@@ -182,7 +169,7 @@ class Plug {
      * @param mixed $value - header value
      * @return static
      */
-    public function withAddedHeader(string $name, $value) : object {
+    public function withAddedHeader(string $name, mixed $value) : object {
         $plug = clone $this;
         $plug->headers->addHeader($name, $value);
         return $plug;
@@ -195,7 +182,7 @@ class Plug {
      * @param mixed $value - header value
      * @return static
      */
-    public function withHeader(string $name, $value) : object {
+    public function withHeader(string $name, mixed $value) : object {
         $plug = clone $this;
         $plug->headers->setHeader($name, $value);
         return $plug;
@@ -238,7 +225,7 @@ class Plug {
      * @return static
      * @throws MalformedPathQueryFragmentException
      */
-    public function at(...$segments) : object {
+    public function at(mixed ...$segments) : object {
         $plug = clone $this;
         $path = '';
         foreach($segments as $segment) {
@@ -255,7 +242,7 @@ class Plug {
      * @param mixed $value - variable value
      * @return static
      */
-    public function with(string $name, $value) : object {
+    public function with(string $name, mixed $value) : object {
         $plug = clone $this;
         $plug->uri = $value !== null
             ? $plug->uri->withQueryParam($name, $value)
@@ -280,7 +267,6 @@ class Plug {
     /**
      * Return an instance with the specified request timeout (ms)
      *
-     * @param int $timeout
      * @return static
      */
     public function withTimeout(int $timeout) : object {
@@ -391,11 +377,8 @@ class Plug {
     }
 
     #endregion
-
     #region Common helpers
-
     /**
-     * @param string $method
      * @param IContent|null $content
      * @return Result
      * @throws ResultParserContentExceedsMaxContentLengthException
@@ -412,10 +395,6 @@ class Plug {
         return $this->invokeRequest($method, $requestUri, $requestHeaders, $content);
     }
 
-    /**
-     * @param IMutableHeaders $headers
-     * @return void
-     */
     protected function invokeApplyCredentials(IMutableHeaders $headers) : void {
 
         // apply manually given credentials
@@ -427,7 +406,6 @@ class Plug {
     /**
      * Return the formatted invocation result
      *
-     * @param Result $result
      * @return Result
      * @throws ResultParserContentExceedsMaxContentLengthException
      */
@@ -444,10 +422,6 @@ class Plug {
     }
 
     /**
-     * @param string $method
-     * @param XUri $requestUri
-     * @param IMutableHeaders $requestHeaders
-     * @param IContent|null $content
      * @return Result
      * @throws ResultParserContentExceedsMaxContentLengthException
      */
@@ -532,7 +506,7 @@ class Plug {
             } else {
                 try {
                     $responseHeaders->addRawHeader($header);
-                } catch(InvalidArgumentException $e) {
+                } catch(InvalidArgumentException) {
 
                     // TODO (modethirteen, 20180424): add a handler for invalid http headers
                 }
@@ -599,17 +573,10 @@ class Plug {
         return $this->invokeComplete($result);
     }
 
-    /**
-     * @param IResultParser $parser
-     * @return void
-     */
     protected function setResultParser(IResultParser $parser) : void {
-        $this->parsers[get_class($parser)] = $parser;
+        $this->parsers[$parser::class] = $parser;
     }
 
-    /**
-     * @return float
-     */
     private function getTime() : float {
         $st = explode(' ', microtime());
         return (float)$st[0] + (float)$st[1];

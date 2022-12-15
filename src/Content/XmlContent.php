@@ -24,12 +24,11 @@ use modethirteen\XArray\XArray;
  *
  * @package modethirteen\Http\Content
  */
-class XmlContent implements IContent {
+class XmlContent implements IContent, \Stringable {
 
     /**
      * Return an instance from an XML encoded array
      *
-     * @param array $xml
      * @return static
      */
     public static function newFromArray(array $xml) : object {
@@ -41,17 +40,8 @@ class XmlContent implements IContent {
      */
     private ?ContentType $contentType;
 
-    /**
-     * @var string
-     */
-    private string $xml;
-
-    /**
-     * @param string $xml
-     */
-    final public function __construct(string $xml) {
+    final public function __construct(private readonly string $xml) {
         $this->contentType = ContentType::newFromString(ContentType::XML);
-        $this->xml = $xml;
     }
 
     public function __clone() {

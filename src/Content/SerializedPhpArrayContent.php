@@ -21,12 +21,11 @@ namespace modethirteen\Http\Content;
  *
  * @package modethirteen\Http\Content
  */
-class SerializedPhpArrayContent implements IContent {
+class SerializedPhpArrayContent implements IContent, \Stringable {
 
     /**
      * Return an instance from an array
      *
-     * @param array $array
      * @return static
      */
     public static function newFromArray(array $array) : object {
@@ -38,17 +37,8 @@ class SerializedPhpArrayContent implements IContent {
      */
     private ?ContentType $contentType;
 
-    /**
-     * @var string
-     */
-    private string $serialized;
-
-    /**
-     * @param string $serialized
-     */
-    final public function __construct(string $serialized) {
+    final public function __construct(private readonly string $serialized) {
         $this->contentType = ContentType::newFromString(ContentType::PHP);
-        $this->serialized = $serialized;
     }
 
     public function __clone() {

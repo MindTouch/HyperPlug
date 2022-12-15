@@ -23,17 +23,16 @@ use modethirteen\Http\Exception\JsonContentCannotSerializeArrayException;
  *
  * @package modethirteen\Http\Content
  */
-class JsonContent implements IContent {
+class JsonContent implements IContent, \Stringable {
 
     /**
      * Return an instance from a JSON encoded array
      *
-     * @param array $json
      * @return static
      * @throws JsonContentCannotSerializeArrayException
      */
     public static function newFromArray(array $json) : object {
-        $text = json_encode($json);
+        $text = json_encode($json, JSON_THROW_ON_ERROR);
         if($text === false) {
             throw new JsonContentCannotSerializeArrayException($json);
         }
@@ -45,17 +44,8 @@ class JsonContent implements IContent {
      */
     private ?ContentType $contentType;
 
-    /**
-     * @var string
-     */
-    private string $json;
-
-    /**
-     * @param string $json
-     */
-    final public function __construct(string $json) {
+    final public function __construct(private readonly string $json) {
         $this->contentType = ContentType::newFromString(ContentType::JSON);
-        $this->json = $json;
     }
 
     public function __clone() {

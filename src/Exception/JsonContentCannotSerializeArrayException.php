@@ -25,22 +25,10 @@ use Exception;
  */
 class JsonContentCannotSerializeArrayException extends Exception {
 
-    /**
-     * @var array
-     */
-    private array $array;
-
-    /**
-     * @param array $array
-     */
-    public function __construct(array $array) {
-        $this->array = $array;
+    public function __construct(private readonly array $array) {
         parent::__construct('Cannot serialize array as JSON');
     }
 
-    /**
-     * @return array
-     */
     public function getArray() : array {
         return $this->array;
     }

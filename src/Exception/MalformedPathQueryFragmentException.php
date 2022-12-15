@@ -26,21 +26,12 @@ use Exception;
 class MalformedPathQueryFragmentException extends Exception {
 
     /**
-     * @var string
-     */
-    private string $string;
-
-    /**
      * @param string $string - malformed URI path/query/fragment string
      */
-    public function __construct(string $string) {
-        $this->string = $string;
+    public function __construct(private readonly string $string) {
         parent::__construct('String is not a valid URI path/query/fragment: ' . $string);
     }
 
-    /**
-     * @return string
-     */
     public function getMalformedPathQueryFragmentString() : string {
         return $this->string;
     }
