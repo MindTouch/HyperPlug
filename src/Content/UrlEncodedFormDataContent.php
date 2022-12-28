@@ -21,7 +21,7 @@ namespace modethirteen\Http\Content;
  *
  * @package modethirteen\Http\Content
  */
-class UrlEncodedFormDataContent implements IContent {
+class UrlEncodedFormDataContent implements IContent, \Stringable {
 
     /**
      * @var ContentType|null
@@ -29,16 +29,10 @@ class UrlEncodedFormDataContent implements IContent {
     private $contentType;
 
     /**
-     * @var string[]
-     */
-    private $data;
-
-    /**
      * @param string[] $data - name/value pairs of form data
      */
-    public function __construct(array $data) {
+    public function __construct(private array $data) {
         $this->contentType = ContentType::newFromString(ContentType::FORM_URLENCODED);
-        $this->data = $data;
     }
 
     public function __clone() {

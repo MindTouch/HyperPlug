@@ -168,7 +168,7 @@ class with_Test extends PlugTestCase  {
                 }
             })
             ->with('fredd', ['qux', true, -10, 5])
-            ->with('barr', function() : string { return 'bazzzzz'; });
+            ->with('barr', fn(): string => 'bazzzzz');
 
         // assert
         $this->assertEquals('http://foo.com?bar=true&fred=false&baz=0&qux=-10&bazz=zzz&fredd=qux%2Ctrue%2C-10%2C5&barr=bazzzzz', $plug->getUri());

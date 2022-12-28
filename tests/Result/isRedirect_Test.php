@@ -21,9 +21,6 @@ use modethirteen\Http\Tests\PlugTestCase;
 
 class isRedirect_Test extends PlugTestCase  {
 
-    /**
-     * @return array
-     */
     public static function status_dataProvider() : array {
         return [
             [301],
@@ -34,7 +31,6 @@ class isRedirect_Test extends PlugTestCase  {
 
     /**
      * @dataProvider status_dataProvider
-     * @param int $status
      * @test
      */
     public function HTTP_300_range_is_redirect(int $status) {

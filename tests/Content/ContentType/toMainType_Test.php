@@ -21,9 +21,6 @@ use modethirteen\Http\Tests\PlugTestCase;
 
 class toMainType_Test extends PlugTestCase {
 
-    /**
-     * @return array
-     */
     public static function headerLine_expected_dataProvider() : array {
         return [
             ['*/*; charset=iso-8859-1', '*'],
@@ -83,8 +80,6 @@ class toMainType_Test extends PlugTestCase {
 
     /**
      * @dataProvider headerLine_expected_dataProvider
-     * @param string $headerLine
-     * @param string $expected
      * @test
      */
     public function Can_return_main_type(string $headerLine, string $expected) {

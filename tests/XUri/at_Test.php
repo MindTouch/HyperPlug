@@ -33,9 +33,7 @@ class at_Test extends PlugTestCase {
                 return 'xyz';
             }
         };
-        $func = function() : string {
-            return 'asdf';
-        };
+        $func = fn(): string => 'asdf';
 
         // act
         $result = XUri::tryParse($uriStr)->at('foo', 'bar', 'baz', true, 123, $object, $func);

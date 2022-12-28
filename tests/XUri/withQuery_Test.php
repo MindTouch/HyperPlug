@@ -64,7 +64,7 @@ class withQuery_Test extends PlugTestCase {
         $exceptionThrown = false;
         try {
             XUri::tryParse($uriStr)->withQuery('?foo=bar');
-        } catch(InvalidArgumentException $e) {
+        } catch(InvalidArgumentException) {
             $exceptionThrown = true;
         }
 

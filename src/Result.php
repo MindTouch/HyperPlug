@@ -36,9 +36,6 @@ class Result extends XArray {
     /**
      * Return an instance with the added request information
      *
-     * @param string $method
-     * @param XUri $uri
-     * @param IHeaders $headers
      * @param float $start - curl start timestamp
      * @param float $end - curl stop timestamp
      * @return static
@@ -58,7 +55,6 @@ class Result extends XArray {
     /**
      * Return an instance with the specified HTTP status code
      *
-     * @param int $status
      * @return static
      */
     public function withStatus(int $status) : object {
@@ -70,7 +66,6 @@ class Result extends XArray {
     /**
      * Return an instance with the specified HTTP headers
      *
-     * @param IHeaders $headers
      * @return static
      */
     public function withHeaders(IHeaders $headers) : object {
@@ -82,10 +77,9 @@ class Result extends XArray {
     /**
      * Return an instance with the specified body
      *
-     * @param string|array $body
      * @return static
      */
-    public function withBody($body) : object {
+    public function withBody(string|array $body) : object {
         $result = clone $this;
         $result->array['body'] = $body;
         return $result;
@@ -94,7 +88,6 @@ class Result extends XArray {
     /**
      * Return an instance with the specified result content body and content type
      *
-     * @param IContent $content
      * @return static
      */
     public function withContent(IContent $content) : object {
@@ -107,11 +100,9 @@ class Result extends XArray {
 
     /**
      * Retrieve the HTTP response status code
-     *
-     * @return int
      */
     public function getStatus() : int {
-        return isset($this->array['status']) ? $this->array['status'] : 0;
+        return $this->array['status'] ?? 0;
     }
 
     /**
@@ -125,8 +116,6 @@ class Result extends XArray {
 
     /**
      * Retrieve an instance of HTTP response headers
-     *
-     * @return IHeaders
      */
     public function getHeaders() : IHeaders {
         $headers = new Headers();
@@ -143,8 +132,6 @@ class Result extends XArray {
 
     /**
      * Return a XArray representation of the HTTP response body (unparsed Result will return ['body' => string])
-     *
-     * @return XArray
      */
     public function getBody() : XArray {
         $body = $this->getVal('body');
@@ -158,7 +145,6 @@ class Result extends XArray {
      * Retrieve an XML string representation of a result value, or the entire result
      *
      * @param string|null $key - result key name (ex: body/content), empty returns entire result as xml (aliases Result::toXml)
-     * @return string
      */
     public function getXml(string $key = null) : string {
         if(!is_string($key)) {
@@ -173,9 +159,6 @@ class Result extends XArray {
 
     /**
      * What is the HTTP response status code?
-     *
-     * @param int $status
-     * @return bool
      */
     public function is(int $status) : bool {
         return $this->getStatus() === $status;
@@ -183,8 +166,6 @@ class Result extends XArray {
 
     /**
      * Is the response status code in the HTTP 2xx range?
-     *
-     * @return bool
      */
     public function isSuccess() : bool {
         $status = $this->getStatus();
@@ -193,8 +174,6 @@ class Result extends XArray {
 
     /**
      * Is the response status code in the HTTP 3xx range?
-     *
-     * @return bool
      */
     public function isRedirect() : bool {
         $status = $this->getStatus();
@@ -203,8 +182,6 @@ class Result extends XArray {
 
     /**
      * Did the request fail due to a server problem?
-     *
-     * @return bool
      */
     public function isServerError() : bool {
         $status = $this->getStatus();
@@ -213,8 +190,6 @@ class Result extends XArray {
 
     /**
      * Did the request fail due to a request problem?
-     *
-     * @return bool
      */
     public function isRequestError() : bool {
         $status = $this->getStatus();
@@ -223,8 +198,6 @@ class Result extends XArray {
 
     /**
      * Is there a connection problem or internal curl error?
-     *
-     * @return bool
      */
     public function isCurlError() : bool {
         return $this->array['errno'] > 0;
@@ -232,10 +205,8 @@ class Result extends XArray {
 
     /**
      * Get curl internal error message
-     *
-     * @return string|null
      */
     public function getCurlError() : ?string {
-        return (isset($this->array['error'])) ? $this->array['error'] : null;
+        return $this->array['error'] ?? null;
     }
 }

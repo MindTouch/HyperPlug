@@ -37,7 +37,7 @@ class put_Test extends PlugTestCase  {
         $exceptionThrown = false;
         try {
             $plug->put(new TextContent('bar'));
-        } catch(NotImplementedException $e) {
+        } catch(NotImplementedException) {
             $exceptionThrown = true;
         }
 

@@ -89,7 +89,7 @@ class post_Test extends PlugTestCase  {
 
         // arrange
         $plug = $this->newHttpBinPlug()->at('anything');
-        $filePath = dirname(__FILE__) . '/file.png';
+        $filePath = __DIR__ . '/file.png';
 
         // act
         $result = $plug->post(new FileContent($filePath));
@@ -160,8 +160,8 @@ TEXT
 
         // arrange
         $plug = $this->newHttpBinPlug()->at('anything');
-        $filePath1 = dirname(__FILE__) . '/file.png';
-        $filePath2 = dirname(__FILE__) . '/file.txt';
+        $filePath1 = __DIR__ . '/file.png';
+        $filePath2 = __DIR__ . '/file.txt';
 
         // act
         $content = new MultiPartFormDataContent([

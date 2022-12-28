@@ -26,36 +26,18 @@ use modethirteen\Http\Result;
 class ResultParserContentExceedsMaxContentLengthException extends ResultParserException {
 
     /**
-     * @var int
-     */
-    private $resultContentLength;
-
-    /**
-     * @var int
-     */
-    private $maxContentLength;
-
-    /**
      * @param Result $result
      * @param int $resultContentLength
      * @param int $maxContentLength
      */
-    public function __construct(Result $result, int $resultContentLength, int $maxContentLength) {
+    public function __construct(Result $result, private int $resultContentLength, private int $maxContentLength) {
         parent::__construct($result, 'content exceeds max content length');
-        $this->resultContentLength = $resultContentLength;
-        $this->maxContentLength = $maxContentLength;
     }
 
-    /**
-     * @return int
-     */
     public function getResultContentLength() : int {
         return $this->resultContentLength;
     }
 
-    /**
-     * @return int
-     */
     public function getMaxContentLength() : int {
         return $this->maxContentLength;
     }

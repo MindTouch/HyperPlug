@@ -21,9 +21,6 @@ use modethirteen\Http\Tests\PlugTestCase;
 
 class isSuccess_Test extends PlugTestCase  {
 
-    /**
-     * @return array
-     */
     public static function status_dataProvider() : array {
         return [
             [200],
@@ -33,7 +30,6 @@ class isSuccess_Test extends PlugTestCase  {
 
     /**
      * @dataProvider status_dataProvider
-     * @param int $status
      * @test
      */
     public function HTTP_200_range_is_success(int $status) {

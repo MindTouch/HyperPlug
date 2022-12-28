@@ -49,7 +49,7 @@ class setRawHeader_Test extends PlugTestCase {
         $exceptionThrown = false;
         try {
             $headers->setRawHeader('HTTP/1.1 400 BAD REQUEST');
-        } catch(InvalidArgumentException $e) {
+        } catch(InvalidArgumentException) {
             $exceptionThrown = true;
         }
 

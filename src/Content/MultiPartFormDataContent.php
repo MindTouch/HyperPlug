@@ -22,17 +22,12 @@ use CURLFile;
  *
  * @package modethirteen\Http\Content
  */
-class MultiPartFormDataContent implements IContent {
+class MultiPartFormDataContent implements IContent, \Stringable {
 
     /**
      * @var ContentType|null
      */
     private $contentType;
-
-    /**
-     * @var string[]
-     */
-    private $data;
 
     /**
      * @var FileContent[]
@@ -42,9 +37,8 @@ class MultiPartFormDataContent implements IContent {
     /**
      * @param string[] $data - name/value pairs of form data
      */
-    public function __construct(array $data) {
+    public function __construct(private array $data) {
         $this->contentType = ContentType::newFromString(ContentType::FORM_MULTIPART);
-        $this->data = $data;
     }
 
     public function __clone() {
@@ -83,9 +77,6 @@ class MultiPartFormDataContent implements IContent {
 
     /**
      * Return an instance with a new CurlFile as part of the form body data
-     *
-     * @param FileContent $content
-     * @return MultiPartFormDataContent
      */
     public function withFileContent(FileContent $content) : MultiPartFormDataContent {
         $instance = clone $this;

@@ -62,7 +62,6 @@ class PlugTestCase extends TestCase {
     }
 
     /**
-     * @param string $class
      * @return MockObject
      */
     protected function newMock(string $class) : MockObject {
@@ -73,8 +72,6 @@ class PlugTestCase extends TestCase {
     }
 
     /**
-     * @param string $method
-     * @param XUri $uri
      * @return MockRequestMatcher
      */
     protected function newDefaultMockRequestMatcher(string $method, XUri $uri) : MockRequestMatcher {
@@ -106,12 +103,8 @@ class PlugTestCase extends TestCase {
 
     /**
      * Assert that an array contains a specified key with the specified value
-     *
-     * @param string $key
-     * @param mixed $expected
-     * @param array $array
      */
-    protected function assertArrayHasKeyValue(string $key, $expected, array $array) {
+    protected function assertArrayHasKeyValue(string $key, mixed $expected, array $array) {
         $X = new XArray($array);
         $isExpectingNumericArray = is_array($expected) && key_exists(0, $expected);
         $this->assertEquals($expected, $isExpectingNumericArray ? $X->getAll($key) : $X->getVal($key));

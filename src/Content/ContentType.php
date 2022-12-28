@@ -23,22 +23,21 @@ use modethirteen\TypeEx\StringEx;
  *
  * @package modethirteen\Http\Content
  */
-class ContentType {
-    const JSON = 'application/json; charset=utf-8';
-    const CSS = 'text/css; charset=utf-8';
-    const JAVASCRIPT = 'application/javascript; charset=utf-8';
-    const HTML = 'text/html; charset=utf-8';
-    const XML = 'application/xml; charset=utf-8';
-    const TEXT = 'text/plain; charset=utf-8';
-    const STREAM = 'application/octet-stream';
-    const FORM_MULTIPART = 'multipart/form-data';
-    const FORM_URLENCODED = 'application/x-www-form-urlencoded';
-    const PHP = 'application/php; charset=utf-8';
+class ContentType implements \Stringable {
+    public const JSON = 'application/json; charset=utf-8';
+    public const CSS = 'text/css; charset=utf-8';
+    public const JAVASCRIPT = 'application/javascript; charset=utf-8';
+    public const HTML = 'text/html; charset=utf-8';
+    public const XML = 'application/xml; charset=utf-8';
+    public const TEXT = 'text/plain; charset=utf-8';
+    public const STREAM = 'application/octet-stream';
+    public const FORM_MULTIPART = 'multipart/form-data';
+    public const FORM_URLENCODED = 'application/x-www-form-urlencoded';
+    public const PHP = 'application/php; charset=utf-8';
 
     /**
      * Return a new ContentType instance from a full content-type string (ex: text/html; charset=utf-8)
      *
-     * @param string $string
      * @return static|null
      */
     public static function newFromString(string $string) : ?object {
@@ -53,32 +52,26 @@ class ContentType {
         array_shift($parts);
         foreach($parts as $part) {
             if(!StringEx::isNullOrEmpty($part)) {
-                if(strpos($part, '=') === false) {
+                if(!str_contains($part, '=')) {
                     $k = $part;
                     $v = null;
                 } else {
-                    list($k, $v) = explode('=', $part);
+                    [$k, $v] = explode('=', $part);
                 }
-                $parameters[$k] = $v === null ? '' : $v;
+                $parameters[$k] = $v ?? '';
             }
         }
         return new static($mainType, $subType, $parameters);
     }
 
-    /**
-     * @var string
-     */
-    private $mainType;
+    private string $mainType;
 
     /**
      * @var string[]
      */
-    private $parameters = [];
+    private array $parameters = [];
 
-    /**
-     * @var string
-     */
-    private $subType;
+    private string $subType;
 
     /**
      * @param string $mainType - main part of content-type header line (ex: application)
@@ -101,9 +94,7 @@ class ContentType {
     }
 
     /**
-     * @param ContentType $contentType
      * @param bool $includeParameters - include parameters when matching content-type string (default: false)
-     * @return bool
      */
     public function is(ContentType $contentType, bool $includeParameters = false) : bool {
         return $includeParameters
@@ -111,38 +102,24 @@ class ContentType {
             : $this->mainType === $contentType->mainType && $this->subType === $contentType->subType;
     }
 
-    /**
-     * @return bool
-     */
     public function isJson() : bool {
         return $this->subType === 'json' || (new StringEx($this->subType))->endsWith('+json');
     }
 
-    /**
-     * @return bool
-     */
     public function isXml() : bool {
         return $this->subType === 'xml';
     }
 
-    /**
-     * @return bool
-     */
     public function isPlainText() : bool {
         return $this->mainType === 'text' && $this->subType === 'plain';
     }
 
-    /**
-     * @return bool
-     */
     public function isStream() : bool {
         return $this->mainType === 'application' && $this->subType === 'octet-stream';
     }
 
     /**
      * Return the main part of content-type (ex: text)
-     *
-     * @return string
      */
     public function toMainType() : string {
         return $this->mainType;
@@ -150,8 +127,6 @@ class ContentType {
 
     /**
      * Return the sub part of content-type (ex: xml)
-     *
-     * @return string
      */
     public function toSubType() : string {
         return $this->subType;
@@ -159,8 +134,6 @@ class ContentType {
 
     /**
      * Return an entire content-type string with parameters (ex: application/json; charset=latin)
-     *
-     * @return string
      */
     public function toString() : string {
         $stringBuilder = ["{$this->mainType}/{$this->subType}"];

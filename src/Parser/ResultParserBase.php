@@ -33,7 +33,6 @@ abstract class ResultParserBase {
     protected $maxContentLength = null;
 
     /**
-     * @param Result $result
      * @return void
      *@throws ResultParserContentExceedsMaxContentLengthException
      */

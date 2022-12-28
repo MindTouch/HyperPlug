@@ -45,7 +45,7 @@ class put_Test extends PlugTestCase  {
 
         // arrange
         $plug = $this->newHttpBinPlug()->at('anything');
-        $filePath = dirname(__FILE__) . '/file.png';
+        $filePath = __DIR__ . '/file.png';
 
         // act
         $result = $plug->put(new FileContent($filePath));

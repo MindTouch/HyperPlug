@@ -54,7 +54,7 @@ class newFromHeaderNameValuePairs_Test extends PlugTestCase {
                 ['baz' => 'foo'],
                 ['x-qux-quxx', 'fred']
             ]);
-        } catch(InvalidArgumentException $e) {
+        } catch(InvalidArgumentException) {
             $exceptionThrown = true;
         }
 

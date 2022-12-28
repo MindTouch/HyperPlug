@@ -35,30 +35,24 @@ class MockPlug {
     /**
      * @var Mock[]
      */
-    private static $mocks = [];
+    private static array $mocks = [];
 
     /**
      * @var array<string, MockRequestMatcher>
      * @structure [ [id] => MockRequestMatcher, ... ]
      */
-    private static $calls = [];
+    private static array $calls = [];
 
-    /**
-     * @var int
-     */
-    private static $callCount = 0;
+    private static int $callCount = 0;
 
     /**
      * @var string[]
      * @structure [ id, ... ]
      */
-    private static $matches = [];
+    private static array $matches = [];
 
     /**
      * Assert that call to URI has been made
-     *
-     * @param MockRequestMatcher $request
-     * @return bool
      */
     public static function verify(MockRequestMatcher $request) : bool {
         return isset(self::$calls[$request->getMatcherId()]);
@@ -66,8 +60,6 @@ class MockPlug {
 
     /**
      * Assert that all registered URI's have been called
-     *
-     * @return bool
      */
     public static function verifyAll() : bool {
         foreach(self::$mocks as $id => $mock) {
@@ -80,8 +72,6 @@ class MockPlug {
 
     /**
      * Assert that at least one call attempt was made
-     *
-     * @return bool
      */
     public static function verifyCalled() : bool {
         return !empty(self::$calls);
@@ -90,10 +80,7 @@ class MockPlug {
     /**
      * New request and result to mock
      *
-     * @param MockRequestMatcher $request
-     * @param Result $result
      * @param bool $verify - verify when all registered uri calls are checked
-     * @return void
      */
     public static function register(MockRequestMatcher $request, Result $result, bool $verify = true) : void {
 
@@ -111,9 +98,6 @@ class MockPlug {
 
     /**
      * Get mocked response data
-     *
-     * @param MockRequestMatcher $request
-     * @return Result|null
      */
     public static function getResult(MockRequestMatcher $request) : ?Result {
         $id = $request->getMatcherId();
@@ -143,8 +127,6 @@ class MockPlug {
 
     /**
      * Get a count of how many calls were invoked
-     *
-     * @return int
      */
     public static function getCallCount() : int {
         return self::$callCount;
@@ -161,8 +143,6 @@ class MockPlug {
 
     /**
      * Get collection of attempted http calls with normalized data for reporting
-     *
-     * @return array
      */
     public static function getNormalizedCallData() : array {
         $calls = [];
@@ -176,8 +156,6 @@ class MockPlug {
 
     /**
      * Get a collection of mocked http requests with normalized data for reporting
-     *
-     * @return array
      */
     public static function getNormalizedMockData() : array {
         $mocks = [];
@@ -196,8 +174,6 @@ class MockPlug {
 
     /**
      * Reset MockPlug
-     *
-     * @return void
      */
     public static function deregisterAll() : void {
         self::$mocks = [];

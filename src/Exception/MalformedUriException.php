@@ -26,21 +26,12 @@ use Exception;
 class MalformedUriException extends Exception {
 
     /**
-     * @var string
-     */
-    private $string;
-
-    /**
      * @param string $string - malformed URI string
      */
-    public function __construct(string $string) {
-        $this->string = $string;
+    public function __construct(private string $string) {
         parent::__construct('String is not a valid URI: ' . $string);
     }
 
-    /**
-     * @return string
-     */
     public function getMalformedUriString() : string {
         return $this->string;
     }

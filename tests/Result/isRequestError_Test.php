@@ -37,9 +37,6 @@ class isRequestError_Test extends PlugTestCase  {
         $this->assertFalse($isRequestError);
     }
 
-    /**
-     * @return array
-     */
     public static function status_dataProvider() : array {
         return [
             [400],
@@ -51,7 +48,6 @@ class isRequestError_Test extends PlugTestCase  {
 
     /**
      * @dataProvider status_dataProvider
-     * @param int $status
      * @test
      */
     public function HTTP_400_range_is_request_error(int $status) {

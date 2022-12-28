@@ -23,20 +23,13 @@ use InvalidArgumentException;
  *
  * @package modethirteen\Http\Content
  */
-class FileContent implements IContent {
+class FileContent implements IContent, \Stringable {
+
+    private string $filePath;
+
+    private ?\modethirteen\Http\Content\ContentType $contentType = null;
 
     /**
-     * @var string
-     */
-    private $filePath;
-
-    /**
-     * @var ContentType|null
-     */
-    private $contentType;
-
-    /**
-     * @param string $filePath
      * @param ContentType|null $contentType - if null or stream the content type will be determined from file path
      */
     public function __construct(string $filePath, ContentType $contentType = null) {

@@ -37,9 +37,6 @@ class isServerError_Test extends PlugTestCase  {
         $this->assertFalse($isServerError);
     }
 
-    /**
-     * @return array
-     */
     public static function status_dataProvider() : array {
         return [
             [500],
@@ -49,7 +46,6 @@ class isServerError_Test extends PlugTestCase  {
 
     /**
      * @dataProvider status_dataProvider
-     * @param int $status
      * @test
      */
     public function HTTP_500_range_is_server_error(int $status) {

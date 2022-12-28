@@ -40,7 +40,7 @@ class newFromArray_Test extends PlugTestCase {
                 }
             },
             'd' => ['qux', true, -10, 5],
-            'e' => function() : string { return 'bazz'; }
+            'e' => fn(): string => 'bazz'
         ]);
 
         // assert

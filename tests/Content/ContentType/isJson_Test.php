@@ -21,9 +21,6 @@ use modethirteen\Http\Tests\PlugTestCase;
 
 class isJson_Test extends PlugTestCase {
 
-    /**
-     * @return array
-     */
     public static function headerLine_expected_dataProvider() : array {
         return [
             ['application/x-latex', false],
@@ -49,8 +46,6 @@ class isJson_Test extends PlugTestCase {
 
     /**
      * @dataProvider headerLine_expected_dataProvider
-     * @param string $headerLine
-     * @param bool $expected
      * @test
      */
     public function Can_check_if_content_type_is_json(string $headerLine, bool $expected) {

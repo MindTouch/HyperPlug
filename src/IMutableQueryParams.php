@@ -20,15 +20,12 @@ interface IMutableQueryParams extends IQueryParams {
 
     /**
      * Add or set query parameters from an instance
-     *
-     * @param IQueryParams $params
      */
     function addQueryParams(IQueryParams $params) : void;
 
     /**
      * Set a query parameter value in the collection
      *
-     * @param string $param
      * @param mixed|null $value - null will remove param from collection
      */
     function set(string $param, $value) : void;

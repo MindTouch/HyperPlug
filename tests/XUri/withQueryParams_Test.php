@@ -43,7 +43,7 @@ class withQueryParams_Test extends PlugTestCase {
                 }
             },
             'd' => ['qux', true, -10, 5],
-            'e' => function() : string { return 'bazz'; }
+            'e' => fn(): string => 'bazz'
         ] as $param => $value) {
             $params->set($param, $value);
         }
@@ -79,7 +79,7 @@ class withQueryParams_Test extends PlugTestCase {
                 }
             },
             'd' => ['qux', true, -10, 5],
-            'e' => function() : string { return 'bazz'; }
+            'e' => fn(): string => 'bazz'
         ] as $param => $value) {
             $params->set($param, $value);
         }

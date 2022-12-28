@@ -27,17 +27,11 @@ use modethirteen\Http\Result;
 class ResultParserException extends Exception {
 
     /**
-     * @var Result
-     */
-    private $result;
-
-    /**
      * @param Result $result
      * @param string $reason
      */
-    public function __construct(Result $result, string $reason) {
+    public function __construct(private Result $result, string $reason) {
         parent::__construct('Cannot parse result content: ' . $reason);
-        $this->result = $result;
     }
 
     /**

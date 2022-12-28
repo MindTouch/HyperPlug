@@ -56,7 +56,6 @@ class post_Test extends PlugTestCase  {
     /**
      * @dataProvider content_dataProvider
      * @note testing mockplug with content
-     * @param IContent $content
      * @test
      */
     public function Can_invoke_post_with_content(IContent $content) {

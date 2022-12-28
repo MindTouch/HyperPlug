@@ -37,7 +37,7 @@ class JsonParser extends ResultParserBase implements IResultParser {
             $this->validateContentLength($result);
             $body = $result->getVal('body', '');
             if(is_string($body)) {
-                $result->setVal('body', json_decode($body, true));
+                $result->setVal('body', json_decode($body, true, 512, JSON_THROW_ON_ERROR));
             }
         }
         return $result;

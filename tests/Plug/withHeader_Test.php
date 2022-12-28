@@ -71,7 +71,7 @@ class withHeader_Test extends PlugTestCase {
                 }
             })
             ->withHeader('fredd', ['qux', true, -10, 5])
-            ->withHeader('barr', function() : string { return 'bazzzzz'; });
+            ->withHeader('barr', fn(): string => 'bazzzzz');
 
         // assert
         $this->assertEquals('true', $plug->getHeaders()->getHeaderLine('Bar'));

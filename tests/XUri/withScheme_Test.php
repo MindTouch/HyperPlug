@@ -49,7 +49,7 @@ class withScheme_Test extends PlugTestCase {
         $exceptionThrown = false;
         try {
             XUri::tryParse($uriStr)->withScheme('');
-        } catch(InvalidArgumentException $e) {
+        } catch(InvalidArgumentException) {
             $exceptionThrown = true;
         }
 
