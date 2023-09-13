@@ -189,25 +189,30 @@ class Headers implements IMutableHeaders {
         return empty($this->headers);
     }
 
-    public function rewind() {
+    public function rewind(): void
+    {
         $this->name = reset($this->names);
     }
 
-    public function key() {
+    public function key(): mixed
+    {
         return $this->name;
     }
 
     /** @noinspection PhpMissingReturnTypeInspection */
-    public function current() {
+    public function current(): mixed
+    {
         return $this->headers[$this->name];
     }
 
-    public function next() {
+    public function next(): void
+    {
         $this->name = next($this->names);
     }
 
     /** @noinspection PhpMissingReturnTypeInspection */
-    public function valid() {
+    public function valid(): bool
+    {
         return $this->name !== false;
     }
 
